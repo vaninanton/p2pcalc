@@ -16,7 +16,7 @@ export default defineConfig({
         short_name: 'BinanceCalc',
         description: 'My BinanceCalc description',
         id: '?homescreen=1',
-        start_url: '/?homescreen=1',
+        start_url: '?homescreen=1',
         display: 'fullscreen',
         lang: 'ru',
         theme_color: '#0f172a',
