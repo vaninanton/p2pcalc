@@ -1,5 +1,6 @@
 <template>
   <div class="flex flex-col justify-around min-h-screen px-4 gap-4">
+    <div class="absolute text-white/30 top-0 right-4">{{ version }}</div>
     <div
       class="dark:bg-slate-900 border rounded-lg shadow dark:shadow-white dark:text-white text-center"
     >
@@ -82,6 +83,7 @@
 export default {
   data() {
     return {
+      version: import.meta.env.VITE_APP_VERSION,
       ofCourse: null,
       rub: 10000,
       rub2usdt: 82.12,
