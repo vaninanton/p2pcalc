@@ -10,13 +10,16 @@ export default defineConfig({
     vue(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
+      includeAssets: [
+        'favicon.ico',
+        'apple-touch-icon.png',
+        'favicon-32x32.png',
+        'favicon-16x16.png',
+        'safari-pinned-tab.svg'
+      ],
       manifest: {
         name: 'BinanceCalc',
-        short_name: 'BinanceCalc',
-        description: 'My BinanceCalc description',
-        id: '?homescreen=1',
-        start_url: '?homescreen=1',
+        description: 'Калькулятор p2p',
         display: 'fullscreen',
         lang: 'ru',
         theme_color: '#0f172a',
@@ -42,13 +45,5 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
-  },
-  server: {
-    host: '192.168.37.12',
-    port: 5173,
-    hmr: {
-      host: '192.168.37.12'
-    },
-    open: false
   }
 })
