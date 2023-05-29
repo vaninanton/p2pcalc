@@ -17,8 +17,8 @@ export default defineConfig({
         'safari-pinned-tab.svg'
       ],
       manifest: {
-        name: 'BinanceCalc',
-        description: 'Калькулятор p2p',
+        name: 'P2P Конвертер валют',
+        description: 'Конвертер валют для двойной конвертации',
         display: 'fullscreen',
         lang: 'ru',
         theme_color: '#0f172a',
@@ -34,9 +34,6 @@ export default defineConfig({
             type: 'image/png'
           }
         ]
-      },
-      devOptions: {
-        enabled: true
       }
     })
   ],
