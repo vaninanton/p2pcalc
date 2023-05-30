@@ -1,8 +1,12 @@
 import './assets/main.css'
 
 import { createApp } from 'vue'
-import App from './App.vue'
+import { init, animate } from './animate'
+import BinanceCalc from './components/BinanceCalc.vue'
 
-const app = createApp(App)
+const app = createApp(BinanceCalc)
 
 app.mount('#app')
+
+init('absolute top-0 left-0 w-screen h-screen z-[-10]')
+animate()
