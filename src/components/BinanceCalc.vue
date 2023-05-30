@@ -1,79 +1,83 @@
 <template>
-  <div class="flex flex-col justify-around min-h-screen px-4 gap-4">
+  <div class="container mx-auto px-4">
     <div class="absolute text-white/30 top-0 right-4">{{ version }}</div>
-    <div
-      class="dark:bg-slate-900 border rounded-lg shadow dark:shadow-white dark:text-white text-center"
-    >
-      <div class="text-xl font-bold py-10">
-        <div>{{ kzt.toLocaleString('ru-RU', { style: 'currency', currency: 'KZT' }) }}</div>
-      </div>
-      <hr />
-      <div class="grid grid-cols-2 divide-x">
-        <div class="py-4">
-          <div class="text-xs">USDT</div>
-          {{ usdt.toLocaleString('ru-RU', { style: 'currency', currency: 'USD' }) }}
+
+    <div class="flex flex-col justify-around min-h-screen gap-4">
+      <div
+        class="bg-white/25 dark:bg-slate-900/25 border rounded-lg shadow dark:shadow-white text-center"
+      >
+        <div class="text-xl font-bold py-10">
+          <div>{{ kzt.toLocaleString('ru-RU', { style: 'currency', currency: 'KZT' }) }}</div>
         </div>
-        <div class="py-4">
-          <div class="text-xs">Курс</div>
-          {{ course.toLocaleString('ru-RU') }}
+        <hr />
+        <div class="grid grid-cols-2 divide-x">
+          <div class="py-4">
+            <div class="text-xs">USDT</div>
+            {{ usdt.toLocaleString('ru-RU', { style: 'currency', currency: 'USD' }) }}
+          </div>
+          <div class="py-4">
+            <div class="text-xs">Курс</div>
+            {{ course.toLocaleString('ru-RU') }}
+          </div>
         </div>
-      </div>
-      <!-- <div class="dark:text-white text-center text-sm font-bold" @click="getOfCourse">
+        <!-- <div class="dark:text-white text-center text-sm font-bold" @click="getOfCourse">
           <div v-if="ofCourse">Курс: {{ ofCourse }}</div>
           <div v-else>Обновить официальный курс</div>
         </div> -->
-    </div>
-    <div class="grid grid-cols-3 gap-4">
-      <div class="relative z-0 w-full mt-3 group">
-        <input
-          type="number"
-          inputmode="numeric"
-          v-model="rub"
-          class="rounded-none block py-1 px-0 w-full text-slate-900 bg-transparent border-0 border-b-2 border-slate-300 appearance-none dark:text-white dark:border-slate-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-          placeholder=" "
-          required
-        />
-        <label
-          for="floating_rub"
-          class="peer-focus:font-medium absolute text-slate-500 dark:text-slate-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-          >RUB</label
-        >
       </div>
-      <div class="relative z-0 w-full mt-3 group">
-        <input
-          type="number"
-          inputmode="decimal"
-          step=".01"
-          v-model="rub2usdt"
-          name="floating_rub2usdt"
-          id="floating_rub2usdt"
-          class="rounded-none block py-1 px-0 w-full text-slate-900 bg-transparent border-0 border-b-2 border-slate-300 appearance-none dark:text-white dark:border-slate-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-          placeholder=" "
-          required
-        />
-        <label
-          for="floating_rub2usdt"
-          class="peer-focus:font-medium absolute text-slate-500 dark:text-slate-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-          >rub2usdt</label
-        >
-      </div>
-      <div class="relative z-0 w-full mt-3 group">
-        <input
-          type="number"
-          inputmode="decimal"
-          step=".01"
-          v-model="usdt2kzt"
-          name="floating_usdt2kzt"
-          id="floating_usdt2kzt"
-          class="rounded-none block py-1 px-0 w-full text-slate-900 bg-transparent border-0 border-b-2 border-slate-300 appearance-none dark:text-white dark:border-slate-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-          placeholder=" "
-          required
-        />
-        <label
-          for="floating_usdt2kzt"
-          class="peer-focus:font-medium absolute text-slate-500 dark:text-slate-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-          >usdt2kzt</label
-        >
+
+      <div class="grid grid-cols-3 gap-4">
+        <div class="relative z-0 w-full mt-3 group">
+          <input
+            type="number"
+            inputmode="numeric"
+            v-model="rub"
+            class="rounded-none block py-1 px-0 w-full text-white bg-transparent border-0 border-b-2 border-slate-300 appearance-none dark:text-white dark:border-slate-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            placeholder=" "
+            required
+          />
+          <label
+            for="floating_rub"
+            class="peer-focus:font-medium absolute text-white dark:text-slate-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            >RUB</label
+          >
+        </div>
+        <div class="relative z-0 w-full mt-3 group">
+          <input
+            type="number"
+            inputmode="decimal"
+            step=".01"
+            v-model="rub2usdt"
+            name="floating_rub2usdt"
+            id="floating_rub2usdt"
+            class="rounded-none block py-1 px-0 w-full text-white bg-transparent border-0 border-b-2 border-slate-300 appearance-none dark:text-white dark:border-slate-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            placeholder=" "
+            required
+          />
+          <label
+            for="floating_rub2usdt"
+            class="peer-focus:font-medium absolute text-white dark:text-slate-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            >rub2usdt</label
+          >
+        </div>
+        <div class="relative z-0 w-full mt-3 group">
+          <input
+            type="number"
+            inputmode="decimal"
+            step=".01"
+            v-model="usdt2kzt"
+            name="floating_usdt2kzt"
+            id="floating_usdt2kzt"
+            class="rounded-none block py-1 px-0 w-full text-white bg-transparent border-0 border-b-2 border-slate-300 appearance-none dark:text-white dark:border-slate-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            placeholder=" "
+            required
+          />
+          <label
+            for="floating_usdt2kzt"
+            class="peer-focus:font-medium absolute text-white dark:text-slate-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            >usdt2kzt</label
+          >
+        </div>
       </div>
     </div>
   </div>
