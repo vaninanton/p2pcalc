@@ -65,6 +65,11 @@ function evolveSmoke() {
   }
 }
 
+function resize() {
+  renderer.setSize(window.innerWidth, window.innerHeight)
+  camera.aspect = window.innerWidth / window.innerHeight
+}
+
 function render() {
   mesh.rotation.x += 0.005
   mesh.rotation.y += 0.01
@@ -73,4 +78,4 @@ function render() {
   renderer.render(scene, camera)
 }
 
-export { init, animate }
+export { init, animate, resize }
