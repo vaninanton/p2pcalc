@@ -20,10 +20,6 @@
             {{ course.toLocaleString('ru-RU') }}
           </div>
         </div>
-        <!-- <div class="dark:text-white text-center text-sm font-bold" @click="getOfCourse">
-          <div v-if="ofCourse">Курс: {{ ofCourse }}</div>
-          <div v-else>Обновить официальный курс</div>
-        </div> -->
       </div>
 
       <div class="grid grid-cols-3 gap-4">
@@ -88,15 +84,17 @@ export default {
   data() {
     return {
       version: import.meta.env.VITE_APP_VERSION,
-      ofCourse: null,
-      rub: 10000,
+      rub: 100000,
       rub2usdt: 82.12,
-      usdt2kzt: 450.84
+      usdt2kzt: 446.28,
     }
+  },
+  mounted() {
+    this.getOfCourse()
   },
   methods: {
     getOfCourse: function () {
-      fetch('https://www.cbr-xml-daily.ru/latest.js')
+      fetch('https://www.cbr-xml-daily.ru/daily_json.js')
         .then((response) => {
           if (response.ok) {
             return response.json()
@@ -105,13 +103,13 @@ export default {
           throw new Error('Network response was not ok')
         })
         .then((json) => {
-          this.ofCourse = json.rates.KZT
+          this.rub2usdt = json.Valute.USD.Value / json.Valute.USD.Nominal
         })
         .catch((error) => {
           console.log(error)
         })
       //
-    }
+    },
   },
   computed: {
     usdt: function () {
@@ -122,9 +120,7 @@ export default {
     },
     course: function () {
       return ((this.rub / this.rub2usdt) * this.usdt2kzt) / this.rub
-    }
-  }
+    },
+  },
 }
 </script>
-
-<style scoped></style>

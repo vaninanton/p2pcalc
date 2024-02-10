@@ -10,4 +10,4 @@ app.mount('#app')
 
 init('absolute top-0 left-0 w-screen h-screen z-[-10]')
 animate()
-window.onresize = resize;
+window.onresize = resize

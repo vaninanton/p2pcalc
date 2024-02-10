@@ -25,12 +25,12 @@ function init(classList) {
   scene.add(light)
 
   let smokeTexture = new THREE.TextureLoader().load(
-    'https://s3-us-west-2.amazonaws.com/s.cdpn.io/95637/Smoke-Element.png'
+    'https://s3-us-west-2.amazonaws.com/s.cdpn.io/95637/Smoke-Element.png',
   )
   let smokeMaterial = new THREE.MeshLambertMaterial({
     color: 0x666666,
     map: smokeTexture,
-    transparent: true
+    transparent: true,
   })
   let smokeGeo = new THREE.PlaneGeometry(300, 300)
 
@@ -39,7 +39,7 @@ function init(classList) {
     particle.position.set(
       Math.random() * 500 - 250,
       Math.random() * 500 - 250,
-      Math.random() * 1000 - 100
+      Math.random() * 1000 - 100,
     )
     particle.rotation.z = Math.random() * 360
     scene.add(particle)
