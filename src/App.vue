@@ -1,7 +1,7 @@
 <script setup>
-import BinanceCalc from './components/BinanceCalc.vue'
+import P2PCalc from './components/P2PCalc.vue'
 </script>
 
 <template>
-  <BinanceCalc />
+  <P2PCalc />
 </template>

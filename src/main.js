@@ -2,9 +2,9 @@ import './assets/main.css'
 
 import { createApp } from 'vue'
 import { init, animate, resize } from './animate'
-import BinanceCalc from './components/BinanceCalc.vue'
+import P2PCalc from './components/P2PCalc.vue'
 
-const app = createApp(BinanceCalc)
+const app = createApp(P2PCalc)
 
 app.mount('#app')
 
