@@ -1,0 +1,63 @@
+name: Auto-merge Dependabot PR
+
+on:
+  pull_request_target:
+    branches: ['main']
+    types: [opened, reopened, synchronize]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
+    outputs:
+      is_minor: ${{ steps.check.outputs.is_minor }}
+
+    steps:
+      - name: Check if minor/patch update
+        id: check
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+
+          # Проверяем, что это не мажорное обновление
+          # PR title format: "Bump package from X.Y.Z to A.B.C"
+          if [[ "$PR_TITLE" =~ Bump[^f]*from\ ([0-9]+)\.([0-9]+)\.([0-9]+)\ to\ ([0-9]+) ]]; then
+            OLD_MAJOR="${BASH_REMATCH[1]}"
+            NEW_MAJOR="${BASH_REMATCH[4]}"
+
+            if [ "$OLD_MAJOR" = "$NEW_MAJOR" ]; then
+              echo "is_minor=true" >> $GITHUB_OUTPUT
+              echo "✓ Minor/patch update detected"
+            else
+              echo "is_minor=false" >> $GITHUB_OUTPUT
+              echo "⚠ Major update detected - skipping auto-merge"
+            fi
+          else
+            # Если не удалось распарсить - пропускаем автомерж
+            echo "is_minor=false" >> $GITHUB_OUTPUT
+          fi
+
+  auto-merge:
+    needs: check-version
+    runs-on: ubuntu-latest
+    if: |
+      github.actor == 'dependabot[bot]' &&
+      needs.check-version.outputs.is_minor == 'true'
+
+    steps:
+      - name: Approve PR
+        run: |
+          gh pr review --approve "${{ github.event.pull_request.number }}" \
+            --repo "${{ github.repository }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Enable auto-merge
+        run: |
+          gh pr merge --squash --auto "${{ github.event.pull_request.number }}" \
+            --repo "${{ github.repository }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
