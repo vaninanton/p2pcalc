@@ -19,8 +19,10 @@ jobs:
     steps:
       - name: Check if minor/patch update
         id: check
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
-          PR_TITLE="${{ github.event.pull_request.title }}"
+          PR_TITLE="$PR_TITLE"
 
           # Проверяем, что это не мажорное обновление
           # PR title format: "Bump package from X.Y.Z to A.B.C"
