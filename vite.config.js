@@ -14,7 +14,7 @@ export default defineConfig({
         'apple-touch-icon.png',
         'favicon-32x32.png',
         'favicon-16x16.png',
-        'safari-pinned-tab.svg'
+        'safari-pinned-tab.svg',
       ],
       manifest: {
         name: 'P2P Конвертер валют',
@@ -26,28 +26,28 @@ export default defineConfig({
           {
             src: 'android-chrome-192x192.png',
             sizes: '192x192',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: 'android-chrome-512x512.png',
             sizes: '512x512',
-            type: 'image/png'
-          }
-        ]
-      }
-    })
+            type: 'image/png',
+          },
+        ],
+      },
+    }),
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
   },
   build: {
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes("three")) {
-            return 'three';
+          if (id.includes('three')) {
+            return 'three'
           }
         },
       },

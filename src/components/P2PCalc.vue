@@ -85,8 +85,8 @@ export default {
     return {
       version: import.meta.env.VITE_APP_VERSION,
       rub: 100000,
-      rub2usdt: 86.60,
-      usdt2kzt: 474.50,
+      rub2usdt: 86.6,
+      usdt2kzt: 474.5,
     }
   },
   mounted() {
