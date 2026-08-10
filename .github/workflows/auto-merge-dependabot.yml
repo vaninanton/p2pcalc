@@ -2,7 +2,7 @@ name: Auto-merge Dependabot PR
 
 on:
   pull_request_target:
-    branches: ['main']
+    branches: ['master']
     types: [opened, reopened, synchronize]
 
 permissions:
@@ -10,56 +10,35 @@ permissions:
   pull-requests: write
 
 jobs:
-  check-version:
-    runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]'
-    outputs:
-      is_minor: ${{ steps.check.outputs.is_minor }}
-
-    steps:
-      - name: Check if minor/patch update
-        id: check
-        env:
-          PR_TITLE: ${{ github.event.pull_request.title }}
-        run: |
-          PR_TITLE="$PR_TITLE"
-
-          # Проверяем, что это не мажорное обновление
-          # PR title format: "Bump package from X.Y.Z to A.B.C"
-          if [[ "$PR_TITLE" =~ Bump[^f]*from\ ([0-9]+)\.([0-9]+)\.([0-9]+)\ to\ ([0-9]+) ]]; then
-            OLD_MAJOR="${BASH_REMATCH[1]}"
-            NEW_MAJOR="${BASH_REMATCH[4]}"
-
-            if [ "$OLD_MAJOR" = "$NEW_MAJOR" ]; then
-              echo "is_minor=true" >> $GITHUB_OUTPUT
-              echo "✓ Minor/patch update detected"
-            else
-              echo "is_minor=false" >> $GITHUB_OUTPUT
-              echo "⚠ Major update detected - skipping auto-merge"
-            fi
-          else
-            # Если не удалось распарсить - пропускаем автомерж
-            echo "is_minor=false" >> $GITHUB_OUTPUT
-          fi
-
   auto-merge:
-    needs: check-version
     runs-on: ubuntu-latest
-    if: |
-      github.actor == 'dependabot[bot]' &&
-      needs.check-version.outputs.is_minor == 'true'
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
 
     steps:
+      # Отдаёт разобранные метаданные обновления вместо парсинга заголовка PR:
+      # update-type принимает version-update:semver-{major,minor,patch}.
+      - name: Fetch Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Approve PR
-        run: |
-          gh pr review --approve "${{ github.event.pull_request.number }}" \
-            --repo "${{ github.repository }}"
+        if: steps.metadata.outputs.update-type != 'version-update:semver-major'
+        run: gh pr review --approve "$PR_URL"
         env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Enable auto-merge
-        run: |
-          gh pr merge --squash --auto "${{ github.event.pull_request.number }}" \
-            --repo "${{ github.repository }}"
+        if: steps.metadata.outputs.update-type != 'version-update:semver-major'
+        run: gh pr merge --squash --auto "$PR_URL"
         env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Skip major update
+        if: steps.metadata.outputs.update-type == 'version-update:semver-major'
+        run: echo "⚠ Major update ($DEP) — auto-merge skipped, merge manually"
+        env:
+          DEP: ${{ steps.metadata.outputs.dependency-names }}
