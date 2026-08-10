@@ -1,6 +1,7 @@
 <template>
   <div class="relative z-0 w-full mt-3 group">
     <input
+      :id="id"
       type="number"
       :inputmode="inputMode"
       :value="modelValue"
